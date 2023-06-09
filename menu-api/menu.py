@@ -25,6 +25,7 @@ class Food(BaseModel):
     name: str
     background_image: str
     hotels_list: list[Hotel]
+    metacritic: int
 
 
 @app.get("/foods")
@@ -40,6 +41,7 @@ async def get_foods():
                 Hotel(id=5, name="Hotel Riviera", slug="riviera"),
                 Hotel(id=1, name="Hotel Luton", slug="luton"),
             ],
+            metacritic=92,
         ),
         Food(
             id=2,
@@ -52,6 +54,7 @@ async def get_foods():
                 Hotel(id=3, name="Hotel Arnold", slug="Arnold"),
                 Hotel(id=5, name="Hotel Riviera", slug="riviera"),
             ],
+            metacritic=75,
         ),
         Food(
             id=3,
@@ -63,6 +66,7 @@ async def get_foods():
                 Hotel(id=4, name="Hotel Plaza", slug="plaza"),
                 Hotel(id=5, name="Hotel Riviera", slug="riviera"),
             ],
+            metacritic=78,
         ),
         Food(
             id=4,
@@ -73,6 +77,7 @@ async def get_foods():
                 Hotel(id=3, name="Hotel Arnold", slug="Arnold"),
                 Hotel(id=4, name="Hotel Plaza", slug="plaza"),
             ],
+            metacritic=97,
         ),
         Food(
             id=5,
@@ -84,6 +89,7 @@ async def get_foods():
                 Hotel(id=5, name="Hotel Riviera", slug="riviera"),
                 Hotel(id=3, name="Hotel Arnold", slug="Arnold"),
             ],
+            metacritic=90,
         ),
         Food(
             id=6,
@@ -94,6 +100,7 @@ async def get_foods():
                 Hotel(id=2, name="Hotel America", slug="America"),
                 Hotel(id=4, name="Hotel Plaza", slug="plaza"),
             ],
+            metacritic=58,
         ),
         Food(
             id=7,
@@ -104,6 +111,7 @@ async def get_foods():
                 Hotel(id=3, name="Hotel Arnold", slug="Arnold"),
                 Hotel(id=5, name="Hotel Riviera", slug="riviera"),
             ],
+            metacritic=66,
         ),
         Food(
             id=8,
@@ -115,6 +123,7 @@ async def get_foods():
                 Hotel(id=3, name="Hotel Arnold", slug="Arnold"),
                 Hotel(id=5, name="Hotel Riviera", slug="riviera"),
             ],
+            metacritic=80,
         ),
         Food(
             id=9,
@@ -125,6 +134,7 @@ async def get_foods():
                 Hotel(id=3, name="Hotel Arnold", slug="Arnold"),
                 Hotel(id=5, name="Hotel Riviera", slug="riviera"),
             ],
+            metacritic=11,
         ),
         Food(
             id=10,
@@ -136,6 +146,7 @@ async def get_foods():
                 Hotel(id=5, name="Hotel Riviera", slug="riviera"),
                 Hotel(id=3, name="Hotel Arnold", slug="Arnold"),
             ],
+            metacritic=54,
         ),
         Food(
             id=11,
@@ -146,6 +157,7 @@ async def get_foods():
                 Hotel(id=3, name="Hotel Arnold", slug="Arnold"),
                 Hotel(id=4, name="Hotel Plaza", slug="plaza"),
             ],
+            metacritic=97,
         ),
         Food(
             id=12,
@@ -157,6 +169,7 @@ async def get_foods():
                 Hotel(id=4, name="Hotel Plaza", slug="plaza"),
                 Hotel(id=5, name="Hotel Riviera", slug="riviera"),
             ],
+            metacritic=90,
         ),
         Food(
             id=13,
@@ -167,6 +180,7 @@ async def get_foods():
                 Hotel(id=4, name="Hotel Plaza", slug="plaza"),
                 Hotel(id=5, name="Hotel Riviera", slug="riviera"),
             ],
+            metacritic=86,
         ),
         Food(
             id=14,
@@ -178,6 +192,7 @@ async def get_foods():
                 Hotel(id=5, name="Hotel Riviera", slug="riviera"),
                 Hotel(id=4, name="Hotel Plaza", slug="plaza"),
             ],
+            metacritic=21,
         ),
         Food(
             id=15,
@@ -189,6 +204,7 @@ async def get_foods():
                 Hotel(id=4, name="Hotel Plaza", slug="plaza"),
                 Hotel(id=5, name="Hotel Riviera", slug="riviera"),
             ],
+            metacritic=76,
         ),
         Food(
             id=16,
@@ -200,6 +216,7 @@ async def get_foods():
                 Hotel(id=4, name="Hotel Plaza", slug="plaza"),
                 Hotel(id=2, name="Hotel America", slug="America"),
             ],
+            metacritic=52,
         ),
         Food(
             id=17,
@@ -210,6 +227,7 @@ async def get_foods():
                 Hotel(id=4, name="Hotel Plaza", slug="plaza"),
                 Hotel(id=5, name="Hotel Riviera", slug="riviera"),
             ],
+            metacritic=87,
         ),
         Food(
             id=18,
@@ -221,6 +239,7 @@ async def get_foods():
                 Hotel(id=4, name="Hotel Plaza", slug="plaza"),
                 Hotel(id=5, name="Hotel Riviera", slug="riviera"),
             ],
+            metacritic=90,
         ),
         Food(
             id=19,
@@ -233,6 +252,7 @@ async def get_foods():
                 Hotel(id=5, name="Hotel Riviera", slug="riviera"),
                 Hotel(id=2, name="Hotel America", slug="America"),
             ],
+            metacritic=65,
         ),
         Food(
             id=20,
@@ -243,6 +263,7 @@ async def get_foods():
                 Hotel(id=3, name="Hotel Arnold", slug="Arnold"),
                 Hotel(id=4, name="Hotel Plaza", slug="plaza"),
             ],
+            metacritic=72,
         ),
     ]
     return {"count": len(foods), "results": foods}
