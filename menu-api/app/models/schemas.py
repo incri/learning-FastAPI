@@ -16,3 +16,9 @@ class Food(BaseModel):
     background_image: str
     hotels_list: List[Hotel]
     metacritic: int
+    category_id: int
+
+
+class Category(BaseModel):
+    id: int
+    name: str
