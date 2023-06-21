@@ -22,3 +22,4 @@ class Food(BaseModel):
 class Category(BaseModel):
     id: int
     name: str
+    background_image: str
