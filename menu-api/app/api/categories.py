@@ -62,12 +62,3 @@ categories = [
 @router.get("/")
 async def get_categories():
     return {"count": len(categories), "results": categories}
-
-
-@router.get("/{category_id}")
-async def get_category(category_id: int):
-    category = next((cat for cat in categories if cat.id == category_id), None)
-    if category:
-        return category
-    else:
-        return {"message": "Category not found"}
