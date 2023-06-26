@@ -1,17 +1,11 @@
 # app/api/food.py
 
 from fastapi import APIRouter
-from app.models.schemas import Food, Category, Hotel
+from app.models.schemas import Food
+from app.api.hotels import hotels
 
 router = APIRouter()
 
-hotels = [
-    Hotel(id=2, name="Hotel America", slug="America"),
-    Hotel(id=4, name="Hotel Plaza", slug="plaza"),
-    Hotel(id=5, name="Hotel Riviera", slug="riviera"),
-    Hotel(id=1, name="Hotel Luton", slug="luton"),
-    Hotel(id=3, name="Hotel Arnold", slug="Arnold"),
-]
 
 foods = [
     Food(
