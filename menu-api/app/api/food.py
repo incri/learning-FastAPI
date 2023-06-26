@@ -172,9 +172,22 @@ foods = [
 
 
 @router.get("/")
-async def get_foods(categories: int = None):
-    if categories is None:
+async def get_foods(categories: int = None, hotels: int = None):
+    if categories is None and hotels is None:
         return {"count": len(foods), "results": foods}
-    else:
-        filtered_foods = [food for food in foods if food.category_id == categories]
-        return {"count": len(filtered_foods), "results": filtered_foods}
+
+    filtered_foods = foods
+
+    if categories is not None:
+        filtered_foods = [
+            food for food in filtered_foods if food.category_id == categories
+        ]
+
+    if hotels is not None:
+        filtered_foods = [
+            food
+            for food in filtered_foods
+            if any(hotel.id == hotels for hotel in food.hotels_list)
+        ]
+
+    return {"count": len(filtered_foods), "results": filtered_foods}
