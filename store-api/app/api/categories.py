@@ -8,53 +8,53 @@ router = APIRouter()
 categories = [
     Category(
         id=1,
-        name="Appetizers",
-        background_image="https://media.istockphoto.com/id/1224986732/photo/directly-above-view-of-tapas.jpg?s=1024x1024&w=is&k=20&c=Zdgx04vxqMehQgN8L_3mzNcdsQW7B13IXWJwqK8Vmq0=",
+        name="T-shirts",
+        background_image="https://media.istockphoto.com/id/1450998087/photo/african-american-man-in-white-t-shirt-against-white-background.jpg?s=1024x1024&w=is&k=20&c=C539s71_IVQYxVUKe2CAnGHJq3IO3TFRDVH0tPwCYjg=",
     ),
     Category(
         id=2,
-        name="Soups and Salads",
-        background_image="https://media.istockphoto.com/id/182497692/photo/soup-and-salad.jpg?s=1024x1024&w=is&k=20&c=IKvooWOWOJVrgHfM4zTLavvMs6I9fH1m4y6p6qah0-A=",
+        name="Jeans",
+        background_image="https://media.istockphoto.com/id/1392352768/photo/cropped-shot-of-young-slender-woman-in-fashionable-blue-jeans-with-a-high-fit-on-a-white.jpg?s=1024x1024&w=is&k=20&c=uxiU9yIVrBqt5Qa-0uHcYY8g1BHo1EIfvZ2F9NIiBNE=",
     ),
     Category(
         id=3,
-        name="Main Courses",
-        background_image="https://media.istockphoto.com/id/462154273/photo/grilled-rack-of-lamb-with-vegetables.jpg?s=1024x1024&w=is&k=20&c=E6KYgOQl2nc_xgOawtU8y6q5MDchJOErtCR1AGo0UOk=",
+        name="Dresses",
+        background_image="https://media.istockphoto.com/id/1393067614/photo/fashion-model-in-red-long-waving-luxury-dress-dark-skinned-beauty-woman-with-afro-black.jpg?s=1024x1024&w=is&k=20&c=cdj0IaN4Efc7f7CUqtu1w2qH4NxbNpgxsWqcdNrnw34=",
     ),
     Category(
         id=4,
-        name="Sandwiches and Burgers",
-        background_image="https://media.istockphoto.com/id/526283108/photo/homemade-vegan-pulled-jackfruit-bbq-sandwich.jpg?s=1024x1024&w=is&k=20&c=RwZgKXsegnEpTsgkKBWHwI8HnJ-JHVwrfxNpgemKPkA=",
+        name="Hoodies",
+        background_image="https://media.istockphoto.com/id/1366972069/photo/portrait-of-cheerful-man-in-orange-hoodie.jpg?s=1024x1024&w=is&k=20&c=T4HiDeNFoIpYgOEuMo8kRlhL-xY0tP6LgjvGMTg0iBc=",
     ),
     Category(
         id=5,
-        name="Pizza and Pasta",
-        background_image="https://media.istockphoto.com/id/1166789297/photo/top-view-pasta-and-pizzas.jpg?s=1024x1024&w=is&k=20&c=YbXKnII2a_jsHhvLZTq-pT0zjmj8468_NSS7t6PL1TM=",
+        name="Jackets",
+        background_image="https://media.istockphoto.com/id/1342093309/photo/an-urban-young-woman-in-yellow-jacket-against-blue-sky-1.jpg?s=1024x1024&w=is&k=20&c=MBIPYr8yGomajUwy4rIoafyJ5cMQYf_BVCS-INUH52Q=",
     ),
     Category(
         id=6,
-        name="Seafood Specialties",
-        background_image="https://media.istockphoto.com/id/528504362/photo/fillet-of-mackerel.jpg?s=1024x1024&w=is&k=20&c=vwComMpP5M8rUVyXT9LvjWPLRinEAweBfs5YFHH03Z8=",
+        name="Leggings",
+        background_image="https://media.istockphoto.com/id/1365012938/photo/fitness-model-in-leggings-with-beautiful-buttocks-sporty-booty.jpg?s=1024x1024&w=is&k=20&c=FbNRdryan5jYe_oqxJqSlb42TLcGMa4xfXFQBBrlteQ=",
     ),
     Category(
         id=7,
-        name="Vegetarian/Vegan Options",
-        background_image="https://media.istockphoto.com/id/1149105652/photo/delicious-vegan-burgers-made-from-soya-beams-with-yellow-rice-and-salad.jpg?s=1024x1024&w=is&k=20&c=8hOMJ7ze13lzzPO5hbu3065WtHq_Hz2kJcBMkQX1PQM=",
+        name="Button-down shirts",
+        background_image="https://media.istockphoto.com/id/1431057864/photo/modern-business-man-in-casual-blue-shirt-standing-with-crossed-arms-on-blue-background.jpg?s=1024x1024&w=is&k=20&c=1ztNg_LSiHmSkwnV_VtMSOjkKByQzvWZ06XaSiQ9WJc=",
     ),
     Category(
         id=8,
-        name="Side Dishes",
-        background_image="https://media.istockphoto.com/id/450055727/photo/homemade-thanksgiving-stuffing-in-a-white-bowl.jpg?s=1024x1024&w=is&k=20&c=tyc4uCkObORlrePVJ4y43FbLclNhQk3QP7rSHaCw57M=",
+        name="Skirts",
+        background_image="https://media.istockphoto.com/id/1063677494/photo/young-pretty-fashioned-girl.jpg?s=1024x1024&w=is&k=20&c=JfzhFmrxQQODgBk1EUi5enL9sKLGyrnc0Lg8B1Y1AZM=",
     ),
     Category(
         id=9,
-        name="Desserts",
-        background_image="https://media.istockphoto.com/id/515447912/photo/blueberry-cheesecake.jpg?s=1024x1024&w=is&k=20&c=szWbEF4ITTmD-Mpu3tCtqxAf0Siw_ViaNISs3wRMeI8=",
+        name="Shorts",
+        background_image="https://media.istockphoto.com/id/1144375229/photo/young-woman-wearing-jeans-shorts.jpg?s=1024x1024&w=is&k=20&c=d5QA1E-c_9vW53Vdok4ee7qbcroi1TbNg_QyfkhuEdw=",
     ),
     Category(
         id=10,
-        name="Beverages",
-        background_image="https://media.istockphoto.com/id/490361148/photo/still-life-pour-or-whiskey-in-to-glass.jpg?s=1024x1024&w=is&k=20&c=Gk1DHkeuyR3KuEK9IWQc-fzlwKmYXgoMQnOkbklcCwU=",
+        name="Sweaters",
+        background_image="https://media.istockphoto.com/id/1350833930/photo/beautiful-woman-drinking-tea-in-nature.jpg?s=1024x1024&w=is&k=20&c=_PidtaqVnNLEhM5bRO70MLXxh3EV-ysy8Ow6Hh6isXo=",
     ),
 ]
 
