@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Depends ,status ,Response , HTTPException
+from fastapi import FastAPI, Depends ,status ,Response , HTTPException 
 from database import engine, SessionLocal
 from sqlalchemy.orm import Session
 import schemas
@@ -31,11 +31,41 @@ def create(blog: schemas.Blog, db: Session = Depends(get_db)):
     
     return new_blog  # Return the newly created blog entry
 
+
+#delete the selected id from db
+@app.delete('/blog/{id}', status_code=status.HTTP_204_NO_CONTENT)
+def delete_blog(id, db: Session = Depends(get_db)):
+    existing_blog = db.query(models.Blog).filter(models.Blog.id == id).first()
+    if not existing_blog:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Blog with ID {id} not found")
+
+    db.delete(existing_blog,synchronize_session= False)
+    db.commit()
+    return 'Successful'
+
+
+#update the blog in database
+@app.put('/blog/{id}', status_code=status.HTTP_202_ACCEPTED)
+def update_blog(id, blog: schemas.Blog, db: Session = Depends(get_db)):
+    existing_blog = db.query(models.Blog).filter(models.Blog.id == id).first()
+    if not existing_blog:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Blog with ID {id} not found")
+
+    existing_blog.title = blog.title
+    existing_blog.body = blog.body
+
+    db.commit()
+    return 'Updated Successfully'
+
+
+
 #get blog from the database
 @app.get('/blog')
 def allBlogs(db: Session = Depends(get_db)):
     blogs = db.query(models.Blog).all()
     return blogs
+
+
 
 #get blog by id from the database
 @app.get('/blog/{id}',status_code=status.HTTP_200_OK)
