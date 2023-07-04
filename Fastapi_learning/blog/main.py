@@ -66,7 +66,6 @@ def allBlogs(db: Session = Depends(get_db)):
 
 
 #get blog by id from the database
-#get blog by id from the database
 @app.get('/blog/{id}', status_code=status.HTTP_200_OK)
 def show(id, response: Response, db: Session = Depends(get_db)):
     blog = db.query(models.Blog).filter(models.Blog.id == id).first()
