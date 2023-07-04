@@ -35,11 +35,11 @@ def create(blog: schemas.Blog, db: Session = Depends(get_db)):
 #delete the selected id from db
 @app.delete('/blog/{id}', status_code=status.HTTP_204_NO_CONTENT)
 def delete_blog(id, db: Session = Depends(get_db)):
-    existing_blog = db.query(models.Blog).filter(models.Blog.id == id).first()
-    if not existing_blog:
+    blog = db.query(models.Blog).filter(models.Blog.id == id).first()
+    if not blog:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Blog with ID {id} not found")
 
-    db.delete(existing_blog,synchronize_session= False)
+    db.delete(blog)
     db.commit()
     return 'Successful'
 
@@ -58,7 +58,6 @@ def update_blog(id, blog: schemas.Blog, db: Session = Depends(get_db)):
     return 'Updated Successfully'
 
 
-
 #get blog from the database
 @app.get('/blog')
 def allBlogs(db: Session = Depends(get_db)):
@@ -66,13 +65,14 @@ def allBlogs(db: Session = Depends(get_db)):
     return blogs
 
 
-
 #get blog by id from the database
-@app.get('/blog/{id}',status_code=status.HTTP_200_OK)
-def show(id,response:Response,db: Session = Depends(get_db)):
-    blog = db.query(models.Blog).filter(models.Blog.id ==id).first()
+#get blog by id from the database
+@app.get('/blog/{id}', status_code=status.HTTP_200_OK)
+def show(id, response: Response, db: Session = Depends(get_db)):
+    blog = db.query(models.Blog).filter(models.Blog.id == id).first()
     if not blog:
         # response.status_code = status.HTTP_404_NOT_FOUND
         # return {"detail": f"Blog with ID {id} not found"}
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Blog with ID {id} is not available")
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, 
+                            detail=f"Blog with ID {id} is not available")
     return blog
