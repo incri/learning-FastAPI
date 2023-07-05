@@ -38,7 +38,7 @@ categories = [
     ),
     Category(
         id=7,
-        name="Button-down shirts",
+        name="Down-shirts",
         background_image="https://media.istockphoto.com/id/1431057864/photo/modern-business-man-in-casual-blue-shirt-standing-with-crossed-arms-on-blue-background.jpg?s=1024x1024&w=is&k=20&c=1ztNg_LSiHmSkwnV_VtMSOjkKByQzvWZ06XaSiQ9WJc=",
     ),
     Category(
