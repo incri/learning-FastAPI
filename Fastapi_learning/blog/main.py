@@ -76,3 +76,19 @@ def show(id, response: Response, db: Session = Depends(get_db)):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, 
                             detail=f"Blog with ID {id} is not available")
     return blog
+
+
+#creating the user
+@app.post('/users', status_code=status.HTTP_201_CREATED)
+def create_user(user: schemas.User, db: Session = Depends(get_db)):
+    new_user = models.User(name=user.name, email=user.email, password=user.password)
+    db.add(new_user)
+    db.commit()
+    db.refresh(new_user)
+    return new_user
+
+#get users from database
+@app.get('/users')
+def get_user(db: Session = Depends(get_db)):
+    users = db.query(models.User).all()
+    return users
