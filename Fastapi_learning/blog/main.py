@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Depends ,status ,Response , HTTPException 
 from database import engine, SessionLocal
 from sqlalchemy.orm import Session
+from typing import List
 import schemas
 import models
 
@@ -59,14 +60,14 @@ def update_blog(id, blog: schemas.Blog, db: Session = Depends(get_db)):
 
 
 #get blog from the database
-@app.get('/blog')
+@app.get('/blog',response_model=List[schemas.showBlog]) #it will just response blog as defined in schemass
 def allBlogs(db: Session = Depends(get_db)):
     blogs = db.query(models.Blog).all()
     return blogs
 
 
 #get blog by id from the database
-@app.get('/blog/{id}', status_code=status.HTTP_200_OK)
+@app.get('/blog/{id}', status_code=status.HTTP_200_OK,response_model=schemas.showBlog)
 def show(id, response: Response, db: Session = Depends(get_db)):
     blog = db.query(models.Blog).filter(models.Blog.id == id).first()
     if not blog:
