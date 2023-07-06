@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Depends ,status ,Response , HTTPException 
 from database import engine, SessionLocal
 from sqlalchemy.orm import Session
+from typing import List
 import schemas
 import models
 
@@ -59,14 +60,14 @@ def update_blog(id, blog: schemas.Blog, db: Session = Depends(get_db)):
 
 
 #get blog from the database
-@app.get('/blog')
+@app.get('/blog',response_model=List[schemas.showBlog]) #it will just response blog as defined in schemass
 def allBlogs(db: Session = Depends(get_db)):
     blogs = db.query(models.Blog).all()
     return blogs
 
 
 #get blog by id from the database
-@app.get('/blog/{id}', status_code=status.HTTP_200_OK)
+@app.get('/blog/{id}', status_code=status.HTTP_200_OK,response_model=schemas.showBlog)
 def show(id, response: Response, db: Session = Depends(get_db)):
     blog = db.query(models.Blog).filter(models.Blog.id == id).first()
     if not blog:
@@ -75,3 +76,19 @@ def show(id, response: Response, db: Session = Depends(get_db)):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, 
                             detail=f"Blog with ID {id} is not available")
     return blog
+
+
+#creating the user
+@app.post('/users', status_code=status.HTTP_201_CREATED)
+def create_user(user: schemas.User, db: Session = Depends(get_db)):
+    new_user = models.User(name=user.name, email=user.email, password=user.password)
+    db.add(new_user)
+    db.commit()
+    db.refresh(new_user)
+    return new_user
+
+#get users from database
+@app.get('/users')
+def get_user(db: Session = Depends(get_db)):
+    users = db.query(models.User).all()
+    return users
