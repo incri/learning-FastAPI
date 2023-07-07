@@ -189,7 +189,7 @@ async def get_products(categories: int = None, sizes: int = None):
         filtered_products = [
             product
             for product in filtered_products
-            if any(sizes.id == sizes for sizes in product.sizes_list)
+            if any(size.id == sizes for size in product.sizes_list)
         ]
 
     return {"count": len(filtered_products), "results": filtered_products}
