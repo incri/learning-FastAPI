@@ -172,8 +172,8 @@ products = [
 
 
 @router.get("/")
-async def get_products(categories: int = None, sizes: int = None):
-    if categories is None and sizes is None:
+async def get_products(categories: int = None, selected_size: int = None):
+    if categories is None and selected_size is None:
         return {"count": len(products), "results": products}
 
     filtered_products = products
@@ -185,11 +185,11 @@ async def get_products(categories: int = None, sizes: int = None):
             if product.category_id == categories
         ]
 
-    if sizes is not None:
+    if selected_size is not None:
         filtered_products = [
             product
             for product in filtered_products
-            if any(sizes.id == sizes for sizes in product.sizes_list)
+            if any(size.id == selected_size for size in product.sizes_list)
         ]
 
     return {"count": len(filtered_products), "results": filtered_products}
