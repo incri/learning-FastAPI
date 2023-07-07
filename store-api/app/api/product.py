@@ -189,11 +189,7 @@ async def get_products(categories: int = None, selected_size: int = None):
         filtered_products = [
             product
             for product in filtered_products
-<<<<<<< HEAD
             if any(size.id == sizes for size in product.sizes_list)
-=======
-            if any(size.id == selected_size for size in product.sizes_list)
->>>>>>> refs/remotes/origin/main
         ]
 
     return {"count": len(filtered_products), "results": filtered_products}
