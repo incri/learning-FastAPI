@@ -172,22 +172,27 @@ foods = [
 
 
 @router.get("/")
-async def get_foods(categories: int = None, hotels: int = None):
+async def get_foods(categories: int = None, hotels: int = None, sort_by: str = None):
     if categories is None and hotels is None:
-        return {"count": len(foods), "results": foods}
+        filtered_foods = foods
+    else:
+        filtered_foods = foods
 
-    filtered_foods = foods
+        if categories is not None:
+            filtered_foods = [
+                food for food in filtered_foods if food.category_id == categories
+            ]
 
-    if categories is not None:
-        filtered_foods = [
-            food for food in filtered_foods if food.category_id == categories
-        ]
+        if hotels is not None:
+            filtered_foods = [
+                food
+                for food in filtered_foods
+                if any(hotel.id == hotels for hotel in food.hotels_list)
+            ]
 
-    if hotels is not None:
-        filtered_foods = [
-            food
-            for food in filtered_foods
-            if any(hotel.id == hotels for hotel in food.hotels_list)
-        ]
+    if sort_by == "name":
+        filtered_foods.sort(key=lambda food: food.name)
+    elif sort_by == "metacritic":
+        filtered_foods.sort(key=lambda food: food.metacritic, reverse=True)
 
     return {"count": len(filtered_foods), "results": filtered_foods}
