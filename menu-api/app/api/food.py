@@ -206,3 +206,4 @@ async def get_foods(
         filtered_foods.sort(key=lambda food: food.metacritic, reverse=True)
 
     return {"count": len(filtered_foods), "results": filtered_foods}
+ 
