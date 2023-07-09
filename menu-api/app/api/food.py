@@ -172,7 +172,12 @@ foods = [
 
 
 @router.get("/")
-async def get_foods(categories: int = None, hotels: int = None, sort_by: str = None):
+async def get_foods(
+    categories: int = None,
+    hotels: int = None,
+    sort_by: str = None,
+    search_name: str = None,
+):
     if categories is None and hotels is None:
         filtered_foods = foods
     else:
@@ -189,6 +194,11 @@ async def get_foods(categories: int = None, hotels: int = None, sort_by: str = N
                 for food in filtered_foods
                 if any(hotel.id == hotels for hotel in food.hotels_list)
             ]
+
+    if search_name:
+        filtered_foods = [
+            food for food in filtered_foods if search_name.lower() in food.name.lower()
+        ]
 
     if sort_by == "name":
         filtered_foods.sort(key=lambda food: food.name)
