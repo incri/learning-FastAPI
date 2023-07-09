@@ -173,7 +173,10 @@ products = [
 
 @router.get("/")
 async def get_products(
-    categories: int = None, selected_size: int = None, sort_by: str = None
+    categories: int = None,
+    selected_size: int = None,
+    sort_by: str = None,
+    search_name: str = None,
 ):
     if categories is None and selected_size is None:
         filtered_products = products
@@ -194,6 +197,14 @@ async def get_products(
                 for product in filtered_products
                 if any(size.id == sizes for size in product.sizes_list)
             ]
+
+    if search_name:
+        filtered_products = [
+            product
+            for product in filtered_products
+            if search_name.lower() in product.name.lower()
+        ]
+
     if sort_by == "name":
         filtered_products.sort(key=lambda product: product.name)
     elif sort_by == "metacritic":
