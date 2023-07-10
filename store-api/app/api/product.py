@@ -170,6 +170,7 @@ products = [
     ),
 ]
 
+
 @router.get("/")
 async def get_products(
     categories: int = None,
