@@ -194,7 +194,7 @@ async def get_products(
             filtered_products = [
                 product
                 for product in filtered_products
-                if any(size.id == sizes for size in product.sizes_list)
+                if any(size.id == selected_size for size in product.sizes_list)
             ]
 
     if search_name:
