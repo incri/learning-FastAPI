@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Depends ,status ,Response , HTTPException 
+from fastapi import FastAPI, Depends ,status ,Response , HTTPException
 from database import engine, SessionLocal
 from sqlalchemy.orm import Session
 from hashing import Hashing
@@ -23,7 +23,7 @@ def get_db():
 @app.post('/blog',status_code=status.HTTP_201_CREATED,tags=['Blogs'])
 def create(blog: schemas.Blog, db: Session = Depends(get_db)):
     # Creating a new Blog instance using the provided data
-    new_blog = models.Blog(title=blog.title, body=blog.body)  
+    new_blog = models.Blog(title=blog.title, body=blog.body,user_id =1)  
 
     db.add(new_blog)  # Add the new_blog instance to the session
 
@@ -97,3 +97,4 @@ def get_user(id ,db: Session = Depends(get_db)):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, 
                             detail=f"User with ID {id} is not available")
     return users
+
