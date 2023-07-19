@@ -4,12 +4,15 @@ from .. import schemas, database, models
 from sqlalchemy.orm import Session
 
 
-router = APIRouter()  # Instantiate the APIRouter class with parentheses
+router = APIRouter(
+    prefix='/blog',
+    tags=['Blogs']
+)  # Instantiate the APIRouter class with parentheses
 get_db = database.get_db
 
 
 # Create a new blog entry
-@router.post('/blog',status_code=status.HTTP_201_CREATED,tags=['Blogs'])
+@router.post('/',status_code=status.HTTP_201_CREATED)
 def create(blog: schemas.Blog, db: Session = Depends(get_db)):
     # Creating a new Blog instance using the provided data
     new_blog = models.Blog(title=blog.title, body=blog.body,user_id =1)  
@@ -24,7 +27,7 @@ def create(blog: schemas.Blog, db: Session = Depends(get_db)):
 
 
 # Get blogs from the database
-@router.get('/blog', response_model=List[schemas.showBlog], tags=['Blogs'])#it will just response blog as defined in schemass
+@router.get('/', response_model=List[schemas.showBlog])#it will just response blog as defined in schemass
 def allBlogs(db: Session = Depends(get_db)):
     blogs = db.query(models.Blog).all()
     return blogs
@@ -32,7 +35,7 @@ def allBlogs(db: Session = Depends(get_db)):
 
 
 #delete the selected id from db
-@router.delete('/blog/{id}', status_code=status.HTTP_204_NO_CONTENT,tags=['Blogs'])
+@router.delete('/{id}', status_code=status.HTTP_204_NO_CONTENT)
 def delete_blog(id, db: Session = Depends(get_db)):
     blog = db.query(models.Blog).filter(models.Blog.id == id).first()
     if not blog:
@@ -44,7 +47,7 @@ def delete_blog(id, db: Session = Depends(get_db)):
 
 
 #update the blog in database
-@router.put('/blog/{id}', status_code=status.HTTP_202_ACCEPTED,tags=['Blogs'])
+@router.put('/{id}', status_code=status.HTTP_202_ACCEPTED)
 def update_blog(id, blog: schemas.Blog, db: Session = Depends(get_db)):
     existing_blog = db.query(models.Blog).filter(models.Blog.id == id).first()
     if not existing_blog:
@@ -59,7 +62,7 @@ def update_blog(id, blog: schemas.Blog, db: Session = Depends(get_db)):
 
 
 #get blog by id from the database
-@router.get('/blog/{id}', status_code=status.HTTP_200_OK,response_model=schemas.showBlog,tags=['Blogs'])
+@router.get('/{id}', status_code=status.HTTP_200_OK,response_model=schemas.showBlog)
 def show(id , db: Session = Depends(get_db)):
     blog = db.query(models.Blog).filter(models.Blog.id == id).first()
     if not blog:
