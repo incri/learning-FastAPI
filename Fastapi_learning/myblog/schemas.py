@@ -32,3 +32,8 @@ class showBlog(BaseModel):
     class Config:
         # Enable Pydantic's ORM mode
         orm_mode = True  # This allows the model to work  with ORMs
+
+
+class Login(BaseModel):
+    username : str
+    password : str
