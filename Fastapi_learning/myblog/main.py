@@ -12,8 +12,8 @@ sys.path.append(str(main_directory.parent))
 
 from fastapi import FastAPI
 from database import engine
-from myblog.routers import blog, user ,authentication
-import myblog.models as models
+from routers import blog, user ,authentication
+import models as models
 
 
 app = FastAPI()
