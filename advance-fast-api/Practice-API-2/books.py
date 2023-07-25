@@ -9,9 +9,9 @@ app = FastAPI()
 class BOOK(BaseModel):
     id: UUID
     title: str = Field(min_length=1)
-    author: Optional[str] = Field(title="Name Of Author", max_length=50, min_length=1)
-    description: str
-    rating: int
+    author: str = Field(max_length=50, min_length=1)
+    description: str = Field(max_length=100, min_length=1)
+    rating: int = Field(gt=-1, lt=6)
 
 
 BOOKS = []
