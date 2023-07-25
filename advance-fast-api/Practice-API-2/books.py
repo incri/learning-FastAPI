@@ -13,6 +13,16 @@ class BOOK(BaseModel):
     description: str = Field(max_length=100, min_length=1)
     rating: int = Field(gt=-1, lt=6)
 
+    class config:
+        schema_extra = {
+            "example": {
+                "id": "UUID",
+                "title": "Title OF Book",
+                "author": " Author's Name",
+                "description": " Description Of Book",
+            }
+        }
+
 
 BOOKS = []
 
