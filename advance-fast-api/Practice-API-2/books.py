@@ -44,3 +44,5 @@ async def book_detail(id: UUID):
 async def create_book(book: BOOK):
     BOOKS.append(book)
     return book
+
+
