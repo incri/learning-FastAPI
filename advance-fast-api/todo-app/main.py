@@ -35,20 +35,32 @@ async def task(user: dict = Depends(get_current_user), db: Session = Depends(get
 
 
 @app.get("/task/{id}/")
-async def task_detail(id: int, db: Session = Depends(get_db)):
-    model = db.query(models.Todos).filter(models.Todos.id == id).first()
+async def task_detail(
+    id: int, user: dict = Depends(get_current_user), db: Session = Depends(get_db)
+):
+    model = (
+        db.query(models.Todos)
+        .filter(models.Todos.id == id)
+        .filter(models.Todos.owner_id == user.get("id"))
+        .first()
+    )
     if model is not None:
         return model
     raise http_exception_404_not_found()
 
 
 @app.post("/task")
-async def create_task(task: Task, db: Session = Depends(get_db)):
+async def create_task(
+    task: Task, user: dict = Depends(get_current_user), db: Session = Depends(get_db)
+):
+    if user is None:
+        raise get_user_exception()
     model = models.Todos()
     model.title = task.title
     model.description = task.description
     model.priority = task.priority
     model.complete = task.complete
+    model.owner_id = user.get("id")
 
     db.add(model)
     db.commit()
