@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Depends, HTTPException
+from fastapi import FastAPI, Depends, HTTPException, status
 from pydantic import BaseModel
 from typing import Optional
 import models
@@ -7,7 +7,7 @@ from sqlalchemy.orm import Session
 from database import SessionLocal, engine
 from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
 from datetime import datetime, timedelta
-from jose import jwt
+from jose import jwt, JWTError
 
 
 SECRET_KEY = "8af02dc1f9988a3d8979820e4a679e0bca977d3e5488d8df33b2db6d8b7f2722"
@@ -69,6 +69,18 @@ def create_access_token(
     return jwt.encode(encode, SECRET_KEY, algorithm=ALGORITHM)
 
 
+async def get_current_user(token: str = Depends(oauth2_bearer)):
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        username: str = payload.get("sub")
+        id: int = payload.get("id")
+        if username is None or id is None:
+            get_user_exception()
+        return {"username": username, "id": id}
+    except JWTError:
+        raise get_user_exception()
+
+
 @app.post("/user/create")
 async def create_user(user: User, db: Session = Depends(get_db)):
     model = models.Users()
@@ -92,8 +104,25 @@ async def login(
 ):
     user = authenticate_user(form.username, form.password, db)
     if not user:
-        raise HTTPException(status_code=404, detail="User not Found")
+        raise token_exception()
     token_expires = timedelta(minutes=20)
     token = create_access_token(user.username, user.id, expire_delta=token_expires)
 
     return {"token": token}
+
+
+def get_user_exception():
+    credentials_exception = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Could not valid credentials",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
+    return credentials_exception
+
+
+def token_exception():
+    token_exception_response = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Incorrect username or password",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
