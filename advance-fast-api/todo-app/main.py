@@ -71,5 +71,18 @@ async def update_task(id: int, task: Task, db: Session = Depends(get_db)):
     return {"status": 200, "transaction": "Successful"}
 
 
+@app.delete("/task/{id}/")
+async def delete_task(id: int, db: Session = Depends(get_db)):
+    model = db.query(models.Todos).filter(models.Todos.id == id).first()
+
+    if model is None:
+        raise http_exception_404_not_found()
+
+    db.delete(model)
+    db.commit()
+
+    return {"status": 201, "transaction": "Successful"}
+
+
 def http_exception_404_not_found():
     return HTTPException(status_code=404, detail="Task Not Found")
