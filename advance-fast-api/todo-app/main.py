@@ -53,5 +53,23 @@ async def create_task(task: Task, db: Session = Depends(get_db)):
     return {"status": 201, "transaction": "Created Successfully"}
 
 
+@app.put("/task/{id}/")
+async def update_task(id: int, task: Task, db: Session = Depends(get_db)):
+    model = db.query(models.Todos).filter(models.Todos.id == id).first()
+
+    if model is None:
+        raise http_exception_404_not_found()
+
+    model.title = task.title
+    model.description = task.description
+    model.priority = task.priority
+    model.complete = task.complete
+
+    db.add(model)
+    db.commit()
+
+    return {"status": 200, "transaction": "Successful"}
+
+
 def http_exception_404_not_found():
     return HTTPException(status_code=404, detail="Task Not Found")
