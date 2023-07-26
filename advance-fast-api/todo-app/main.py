@@ -4,6 +4,7 @@ import models
 from database import engine, SessionLocal
 from sqlalchemy.orm import Session
 from pydantic import BaseModel, Field
+from auth import get_current_user, get_user_exception
 
 
 app = FastAPI()
@@ -27,8 +28,10 @@ class Task(BaseModel):
 
 
 @app.get("/task/")
-async def task(db: Session = Depends(get_db)):
-    return db.query(models.Todos).all()
+async def task(user: dict = Depends(get_current_user), db: Session = Depends(get_db)):
+    if user is None:
+        raise get_user_exception()
+    return db.query(models.Todos).filter(models.Todos.owner_id == user.get("id")).all()
 
 
 @app.get("/task/{id}/")
