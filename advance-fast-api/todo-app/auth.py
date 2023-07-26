@@ -1,10 +1,10 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends
 from pydantic import BaseModel
 from typing import Optional
 import models
 from passlib.context import CryptContext
-
-app = FastAPI()
+from sqlalchemy.orm import Session
+from database import SessionLocal, engine
 
 
 class User(BaseModel):
@@ -17,13 +17,25 @@ class User(BaseModel):
 
 bcrypt_context = CryptContext(schemes=["bcrypt"])
 
+models.Base.metadata.create_all(bind=engine)
+
+app = FastAPI()
+
+
+def get_db():
+    try:
+        db = SessionLocal()
+        yield db
+    finally:
+        db.close()
+
 
 def hash_password(password):
     return bcrypt_context.hash(password)
 
 
 @app.post("/create/user")
-async def create_user(user: User):
+async def create_user(user: User, db: Session = Depends(get_db)):
     model = models.Users()
     model.username = user.username
     model.email = user.email
@@ -33,4 +45,7 @@ async def create_user(user: User):
     model.hashed_password = password_hashed
     model.is_active = True
 
-    return model
+    db.add(model)
+    db.commit()
+
+    return {"status": 201, "transaction": "Created Successfully"}
