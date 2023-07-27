@@ -11,7 +11,9 @@ from pydantic import BaseModel, Field
 from .auth import get_current_user, get_user_exception
 
 
-router = APIRouter()
+router = APIRouter(
+    prefix="/task", tags=["task"], responses={401: {"description": "Not Found"}}
+)
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -31,14 +33,14 @@ class Task(BaseModel):
     complete: bool = Field(default=False)
 
 
-@router.get("/task/")
+@router.get("/")
 async def task(user: dict = Depends(get_current_user), db: Session = Depends(get_db)):
     if user is None:
         raise get_user_exception()
     return db.query(models.Todos).filter(models.Todos.owner_id == user.get("id")).all()
 
 
-@router.get("/task/{id}/")
+@router.get("/{id}/")
 async def task_detail(
     id: int, user: dict = Depends(get_current_user), db: Session = Depends(get_db)
 ):
@@ -53,7 +55,7 @@ async def task_detail(
     raise http_exception_404_not_found()
 
 
-@router.post("/task")
+@router.post("/")
 async def create_task(
     task: Task, user: dict = Depends(get_current_user), db: Session = Depends(get_db)
 ):
@@ -72,7 +74,7 @@ async def create_task(
     return {"status": 201, "transaction": "Created Successfully"}
 
 
-@router.put("/task/{id}/")
+@router.put("/{id}/")
 async def update_task(
     id: int,
     task: Task,
@@ -100,7 +102,7 @@ async def update_task(
     return {"status": 200, "transaction": "Successful"}
 
 
-@router.delete("/task/{id}/")
+@router.delete("/{id}/")
 async def delete_task(
     id: int, user: dict = Depends(get_current_user), db: Session = Depends(get_db)
 ):

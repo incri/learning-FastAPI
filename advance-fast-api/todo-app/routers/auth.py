@@ -32,7 +32,9 @@ models.Base.metadata.create_all(bind=engine)
 
 oauth2_bearer = OAuth2PasswordBearer(tokenUrl="token")
 
-router = APIRouter()
+router = APIRouter(
+    prefix="/auth", tags=["auth"], responses={401: {"user": "Not Authorized"}}
+)
 
 
 def get_db():
@@ -102,7 +104,7 @@ async def create_user(user: User, db: Session = Depends(get_db)):
     return {"status": 201, "transaction": "Created Successfully"}
 
 
-@router.post("/user/auth")
+@router.post("/user/login")
 async def login(
     form: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)
 ):
