@@ -69,8 +69,18 @@ async def create_task(
 
 
 @app.put("/task/{id}/")
-async def update_task(id: int, task: Task, db: Session = Depends(get_db)):
-    model = db.query(models.Todos).filter(models.Todos.id == id).first()
+async def update_task(
+    id: int,
+    task: Task,
+    user: dict = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    model = (
+        db.query(models.Todos)
+        .filter(models.Todos.id == id)
+        .filter(models.Todos.owner_id == user.get("id"))
+        .first()
+    )
 
     if model is None:
         raise http_exception_404_not_found()
@@ -87,8 +97,15 @@ async def update_task(id: int, task: Task, db: Session = Depends(get_db)):
 
 
 @app.delete("/task/{id}/")
-async def delete_task(id: int, db: Session = Depends(get_db)):
-    model = db.query(models.Todos).filter(models.Todos.id == id).first()
+async def delete_task(
+    id: int, user: dict = Depends(get_current_user), db: Session = Depends(get_db)
+):
+    model = (
+        db.query(models.Todos)
+        .filter(models.Todos.id == id)
+        .filter(models.Todos.owner_id == user.get("id"))
+        .first()
+    )
 
     if model is None:
         raise http_exception_404_not_found()
