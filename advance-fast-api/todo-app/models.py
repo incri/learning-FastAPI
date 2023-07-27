@@ -14,21 +14,10 @@ class Users(Base):
     hashed_password = Column(String)
     is_active = Column(Boolean, default=True)
     task = relationship("Todos", back_populates="owner")
-    address_id = Column(Integer, ForeignKey("address_id"), nullable=True)
+
+    # Correct foreign key definition
+    address_id = Column(Integer, ForeignKey("address.id"), nullable=True)
     address = relationship("Address", back_populates="user_address")
-
-
-class Todos(Base):
-    __tablename__ = "todos"
-
-    id = Column(Integer, primary_key=True, index=True)
-    title = Column(String)
-    description = Column(String)
-    priority = Column(Integer)
-    complete = Column(Boolean, default=False)
-
-    owner_id = Column(Integer, ForeignKey("users.id"))
-    owner = relationship("Users", back_populates="task")
 
 
 class Address(Base):
@@ -42,3 +31,16 @@ class Address(Base):
     postalcode = Column(String)
 
     user_address = relationship("Users", back_populates="address")
+
+
+class Todos(Base):
+    __tablename__ = "todos"
+
+    id = Column(Integer, primary_key=True, index=True)
+    title = Column(String)
+    description = Column(String)
+    priority = Column(Integer)
+    complete = Column(Boolean, default=False)
+
+    owner_id = Column(Integer, ForeignKey("users.id"))
+    owner = relationship("Users", back_populates="task")
