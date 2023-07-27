@@ -1,4 +1,8 @@
-from fastapi import FastAPI, Depends, HTTPException, status
+import sys
+
+sys.path.append("..")
+
+from fastapi import Depends, HTTPException, status, APIRouter
 from pydantic import BaseModel
 from typing import Optional
 import models
@@ -28,7 +32,7 @@ models.Base.metadata.create_all(bind=engine)
 
 oauth2_bearer = OAuth2PasswordBearer(tokenUrl="token")
 
-app = FastAPI()
+router = APIRouter()
 
 
 def get_db():
@@ -81,7 +85,7 @@ async def get_current_user(token: str = Depends(oauth2_bearer)):
         raise get_user_exception()
 
 
-@app.post("/user/create")
+@router.post("/user/create")
 async def create_user(user: User, db: Session = Depends(get_db)):
     model = models.Users()
     model.username = user.username
@@ -98,7 +102,7 @@ async def create_user(user: User, db: Session = Depends(get_db)):
     return {"status": 201, "transaction": "Created Successfully"}
 
 
-@app.post("/user/auth")
+@router.post("/user/auth")
 async def login(
     form: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)
 ):
